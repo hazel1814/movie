@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 
 import MoviesList from './components/MoviesList';
 import './App.css';
+import { MovieForm } from './MovieForm';
 
 function App() {
   const [movies, setMovies] = useState([])
@@ -9,10 +10,10 @@ function App() {
   const [error, setError] = useState(null)
   const [retrying, setRetrying] = useState(false)
 
-  useEffect(() => {
-    fetchMovieHandler();
-    setIsLoading(false)
-  }, []);
+  // useEffect(() => {
+  //   fetchMovieHandler();
+  //   setIsLoading(false)
+  // }, []);
 
 
 
@@ -69,8 +70,12 @@ function App() {
   return (
     <React.Fragment>
       <section>
+        <MovieForm setMovies={setMovies} />
+      </section>
+      <section>
         <button onClick={fetchHandler}>Fetch Movies</button>
         <button onClick={cancelHandler} >Cancel</button>
+
       </section>
       <section>
         {!isLoading && movies.length > 0 && <MoviesList movies={movies} />}
