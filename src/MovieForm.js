@@ -1,21 +1,35 @@
 import React from 'react'
 import './MovieForm.css'
 
-export const MovieForm = ({setMovies}) => {
+export const MovieForm = ({ setMovies }) => {
 
-    const addMovie=(e)=>{
+    async function addMovie(e) {
         e.preventDefault()
-        const newMoviesObj={
+        const newMoviesObj = {
             title: document.getElementById('title').value,
             openingText: document.getElementById('opentext').value,
             releaseDate: document.getElementById('date').value
         }
         console.log(newMoviesObj)
-        setMovies((prevMovie) =>{
-            return [...prevMovie,newMoviesObj]
+
+        const response = await fetch('https://react-http-6d731-default-rtdb.firebaseio.com/movies.json', {
+            method: 'POST',
+            body: JSON.stringify(newMoviesObj),
+            headers: {
+                'CONTENT-TYPE': 'application/json'
+            }
         })
+        const data = await response.json()
+        // setMovies((prevMovie) => {
+        //     return [...prevMovie, {
+        //         id: data.name,
+        //         ...newMoviesObj
+        //     }]
+        // })
+
     }
-    
+
+   
 
     return (
         <>
@@ -23,8 +37,8 @@ export const MovieForm = ({setMovies}) => {
                 <div className='container'>
                     <div className="form-group">
                         <label for="title">Title</label>
-                        <input type="text" className="form-control" id="title"  />
-                     
+                        <input type="text" className="form-control" id="title" />
+
                     </div>
 
                     <div className="form-group">
@@ -37,6 +51,7 @@ export const MovieForm = ({setMovies}) => {
                         <input type="date" className="form-control" id="date" />
                     </div>
                     <button type="submit" className="btn btn-primary" onClick={addMovie}>Add Movie</button>
+                  
                 </div>
             </form>
         </>
